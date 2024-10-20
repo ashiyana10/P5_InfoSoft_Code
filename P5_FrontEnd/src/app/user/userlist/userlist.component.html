@@ -1,0 +1,65 @@
+<div class="m-4">
+  <div class="d-flex justify-content-center">
+    <h2><u>User List</u></h2>
+    
+  </div>
+  <div class="mt-3 d-flex justify-content-between">
+    <div class="d-flex align-items-center w-50"><label for="todoFilter" class="form-label fw-bold"
+      >To-Do Tasks</label
+    >
+    <select
+      id="todoFilter"
+      class="form-select ms-2 w-50"
+      [(ngModel)]="selectedFilter"
+      (change)="filterUsers()"
+    >
+      <option value="">Select Count</option>
+      <option value="lessThan5">Less than 5</option>
+      <option value="lessThan10">Less than 10</option>
+      <option value="moreThan25">More than 25</option>
+    </select></div>
+    <button class="btn btn-primary float-end mb-3" routerLink="/user/add-edit">
+      Add User
+    </button>
+  </div>
+  <table class="table border mt-3">
+    <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>Status</th>
+        <th>Todo Count</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="filteredUsers.length">
+      <tr *ngFor="let user of filteredUsers">
+        <td>{{ user.firstName }} {{ user.lastName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phoneNumber }}</td>
+        <td>{{ user.gender }}</td>
+        <td
+          [ngClass]="{
+            'text-green': user.status,
+            'text-red': !user.status
+          }"
+        >
+          <span *ngIf="user.status">Active</span>
+          <span *ngIf="!user.status">Inactive</span>
+        </td>
+        <td>{{ user.todos.length }}</td>
+        <td>
+          <button (click)="editUser(user.id)" class="btn btn-primary">Edit</button>
+          <button (click)="manageTodos(user.id)" class="btn btn-primary ms-2">ToDo Task</button>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="!filteredUsers.length">
+      <tr>
+        <td colspan="7" class="text-center">No Record</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

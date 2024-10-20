@@ -1,0 +1,134 @@
+<div class="m-4">
+  <div class="d-flex justify-content-center">
+    <h2><u>ToDo List</u></h2>
+  </div>
+  <div class="d-flex justify-content-between">
+    <a routerLink="/user" role="button" class="text-decoration-none fw-bold">< Back</a>
+  <button
+    class="btn btn-primary float-end mb-3"
+    data-bs-toggle="modal"
+    data-bs-target="#todoModal"
+  >
+    Add Task
+  </button>
+</div>
+  <table class="table border">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Due On</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of toDoTask">
+        <td>{{ task.title }}</td>
+        <td>{{ task.dueDate | date : "dd MMM yyyy" }}</td>
+        <td
+          [ngClass]="{
+            'text-green': task.status,
+            'text-red': !task.status
+          }"
+        >
+          <span *ngIf="task.status">Completed</span>
+          <span *ngIf="!task.status">Pending</span>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="!toDoTask?.length">
+      <tr>
+        <td colspan="7" class="text-center">No Record</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div
+  class="modal fade"
+  id="todoModal"
+  tabindex="-1"
+  aria-labelledby="todoModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="todoModalLabel">Add Todo Task</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <input formcontrolName="userId" class="d-none" [value]="id" />
+
+            <label for="title" class="form-label">Title</label>
+            <input id="title" class="form-control" formControlName="title" />
+            <div *ngIf="submitted && todoForm.controls['title'].errors">
+              <small
+                *ngIf="todoForm.controls['title'].errors['required']"
+                class="text-danger"
+                >Title is required.</small
+              >
+              <small
+                *ngIf="todoForm.controls['title'].errors['minlength']"
+                class="text-danger"
+                >Title must be at least 3 characters.</small
+              >
+              <small
+                *ngIf="todoForm.controls['title'].errors['maxlength']"
+                class="text-danger"
+                >Title must be less than 15 characters.</small
+              >
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="dueDate" class="form-label">Due On</label>
+            <input
+              id="dueDate"
+              type="date"
+              class="form-control"
+              formControlName="dueDate"
+            />
+            <div *ngIf="submitted && todoForm.controls['dueDate'].errors">
+              <small
+                *ngIf="todoForm.controls['dueDate'].errors['required']"
+                class="text-danger"
+                >Due date is required.</small
+              >
+              <small
+                *ngIf="todoForm.controls['dueDate'].errors['dateRange']"
+                class="text-danger"
+                >Due date must be within 1 month from today.</small
+              >
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" class="form-select" formControlName="status">
+              <option [ngValue]="true">Completed</option>
+              <option [ngValue]="false">Pending</option>
+            </select>
+            <div *ngIf="submitted && todoForm.controls['status'].errors">
+              <small
+                *ngIf="todoForm.controls['status'].errors['required']"
+                class="text-danger"
+                >Status is required.</small
+              >
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+            Add Task
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

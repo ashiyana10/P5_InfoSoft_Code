@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-center align-items-center vh-100 overflow-hidden">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="bg-light p-4 rounded shadow" style="width: 400px;">
+    <h4 class="text-center mb-4">User Form</h4>
+
+    <input formControlName="id" class="d-none" />
+
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First Name</label>
+      <input id="firstName" formControlName="firstName" class="form-control" />
+      <div *ngIf="submitted && userForm.controls['firstName'].errors" class="text-danger">
+        <small *ngIf="userForm.controls['firstName'].errors['required']">First Name is required.</small>
+        <small *ngIf="userForm.controls['firstName'].errors['minlength']">First Name must be at least 6 characters.</small>
+        <small *ngIf="userForm.controls['firstName'].errors['maxlength']">First Name must be less than 10 characters.</small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input id="lastName" formControlName="lastName" class="form-control" />
+      <div *ngIf="submitted && userForm.controls['lastName'].errors" class="text-danger">
+        <small *ngIf="userForm.controls['lastName'].errors['required']">Last Name is required.</small>
+        <small *ngIf="userForm.controls['lastName'].errors['minlength']">Last Name must be at least 6 characters.</small>
+        <small *ngIf="userForm.controls['lastName'].errors['maxlength']">Last Name must be less than 10 characters.</small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input id="phone" formControlName="phoneNumber" class="form-control" />
+      <div *ngIf="submitted && userForm.controls['phoneNumber'].errors" class="text-danger">
+        <small *ngIf="userForm.controls['phoneNumber'].errors['required']">Phone Number is required.</small>
+        <small *ngIf="userForm.controls['phoneNumber'].errors['pattern']">Invalid phone number format.</small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="gender" class="form-label">Gender</label>
+      <select id="gender" formControlName="gender" class="form-select">
+        <option value="" disabled>Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+      <div *ngIf="submitted && userForm.controls['gender'].errors" class="text-danger">
+        <small *ngIf="userForm.controls['gender'].errors['required']">Gender is required.</small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input id="email" formControlName="email" class="form-control" />
+      <div *ngIf="submitted && userForm.controls['email'].errors" class="text-danger">
+        <small *ngIf="userForm.controls['email'].errors['required']">Email is required.</small>
+        <small *ngIf="userForm.controls['email'].errors['email']">Invalid email format.</small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="status" class="form-label">Status</label>
+      <select id="status" formControlName="status" class="form-select">
+        <option [ngValue]="true">Active</option>
+        <option [ngValue]="false">Inactive</option>
+      </select>
+      <div *ngIf="submitted && userForm.controls['status'].errors" class="text-danger">
+        <small *ngIf="userForm.controls['status'].errors['required']">Status is required.</small>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Submit</button>
+    <p role="button" class="text-center mt-1" routerLink="/user">Cancel</p>
+  </form>
+</div>
